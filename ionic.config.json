@@ -1,0 +1,7 @@
+{
+  "name": "MVVIonic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
