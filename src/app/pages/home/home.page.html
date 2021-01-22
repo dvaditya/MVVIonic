@@ -1,0 +1,51 @@
+<ion-header [translucent]="false">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Home</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" [scrollEvents]="true">
+  <ion-card [ngClass]="isOdd ? 'hoverDivOdd' : 'hoverDivEven'" *ngFor="let schedule of schedulesList; let isOdd=odd;">
+    <ion-grid [routerLink]="['/schedules/schedule', schedule.scheduleId]" routerLinkActive="selected" routerDirection="root">
+      <ion-row class="lblFontlight">{{ schedule.date | date: 'fullDate' }}</ion-row>
+      <ion-row class="margin-left-5 lblFontlight">{{ schedule.timeIns | date: 'shortTime' }} - {{ schedule.timeOuts | date: 'shortTime' }} ({{ schedule.durationS }} hrs)</ion-row>
+      <ion-row>
+        <ion-label class="lblFontBold">Client: {{ schedule.firstName }} {{ schedule.lastName }}</ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-label class="lblFontBold">Status: {{ helper.getStatusName(schedule) }}</ion-label>
+      </ion-row>
+      <ion-row class="margin-left-5 margin-bottom-3">
+        <a class="underline" href="{{ schedule.directionsURL }}">
+          <span>{{ schedule.address }}</span><br />
+          <span>{{ schedule.city }}, {{ schedule.state }} {{ schedule.zip }}</span>
+        </a>
+      </ion-row>
+      <ion-row class="margin-left-5" *ngIf="schedule.phone">
+        <ion-icon name="phone-portrait"></ion-icon>
+        <label class="margin-left-2"><a href="tel:{{schedule.phone}}">{{schedule.phone}}</a></label>
+      </ion-row>
+      <ion-row class="margin-left-5" *ngIf="!schedule.isUnscheduled">
+        <span class="lblFontlight">Unscheduled</span>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+
+  <ion-card *ngIf="isPageLoading">
+    <ion-img src="assets\mvv-icons\loading.gif"></ion-img>
+  </ion-card>
+  <ion-card *ngIf="!isPageLoading && schedulesList.length < 1">
+    <ion-item lines="none">
+      <ion-label>No schedules for today.</ion-label>
+    </ion-item>
+  </ion-card>
+</ion-content>
+
+<ion-footer class="ion-text-center" mode="md">
+  <label class="lblFontBold">
+    Showing {{schedulesList.length}} of {{schedulesList.length}} schedules
+  </label>
+</ion-footer>

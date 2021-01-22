@@ -1,0 +1,94 @@
+<ion-header  [translucent]="false">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/schedules" routerDirection="back"><ion-icon name="arrow-back"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title style="font-size: 14px;">{{ schedule.displayName }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollEvents]="true">
+  <ion-card *ngIf="!isPageLoading" class="hoverDivOdd">
+    <ion-grid class="margin-left-2">
+      <ion-row>
+        <ion-col size="6">
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary btn-sm dropdown-toggle ion-float-left" (click)="showOptionDropDown ? showOptionDropDown = false : showOptionDropDown = true">
+                Options <span class="caret"></span>
+            </button>
+            <ul class="option-dropdown" [hidden]="!showOptionDropDown">
+              <li (click)="showOptionDropDown = false">Notes</li>
+              <li (click)="showOptionDropDown = false">Client Signature</li>
+              <li (click)="showOptionDropDown = false">Staff Signature</li>
+            </ul>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <button id="btnTravelMileage" type="button" class="btn btn-primary btn-sm ion-float-right">
+            Travel Mileage - {{schedule.miles == 0 ? '' : schedule.miles}}
+        </button>
+        </ion-col>
+      </ion-row><br />
+      <ion-row>
+        <ion-col size="12"><label class="lblFontBold">Service</label></ion-col>
+        <ion-col size="12"><label class="lblFontlight color-blue margin-left-5">{{ schedule.serviceCode }} - {{ schedule.serviceName }}</label></ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12"><label class="lblFontBold">Activity</label></ion-col>
+        <ion-col size="12"><label class="lblFontlight color-blue margin-left-5">{{ schedule.activityCode }} - {{ schedule.activityName }}</label></ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12"><label class="lblFontBold">Scheduled For</label></ion-col>
+        <ion-col size="12">
+          <label class="lblFontlight color-blue margin-left-5">
+            {{ schedule.date | date: 'shortDate' }} {{ schedule.timeIns | date: 'shortTime' }} - {{ schedule.timeOuts | date: 'shortTime' }}
+          </label>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="schedule.timeIn || schedule.timeOut">
+        <ion-col size="12"><label class="lblFontBold">Actual</label></ion-col>
+        <ion-col size="12">
+          <label class="lblFontlight color-blue margin-left-5">
+            {{ schedule.timeIn | date: 'shortTime' }} - {{ schedule.timeOut | date: 'shortTime' }}
+          </label>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12"><label class="lblFontBold">Comments</label></ion-col>
+        <ion-col size="12" *ngIf="schedule.comments">
+          <label class="lblFontlight margin-left-5">{{ schedule.comments }}</label>
+        </ion-col>
+        <ion-col size="12" *ngIf="!schedule.comments">
+          <label class="lblFontlight margin-left-5">N/A</label>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-row class="cardfooter tasks-row" lines="full">
+      <ion-col size="5">
+        <ion-button mode="ios" size="small" class="ion-float-right" color="primary" (click)="openAddTasksModal()">
+          <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+          Add Tasks
+        </ion-button>
+      </ion-col>
+      <ion-col class="ion-float-left" size="7">
+        <ion-button mode="ios" size="small" class="ion-float-left" color="primary" (click)="openCompletedTasksModal()">
+          Completed Tasks
+          <ion-badge slot="end" color="light">{{completedTasks.length}}</ion-badge>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
+  <ion-card *ngIf="isPageLoading">
+    <ion-img src="assets\mvv-icons\loading.gif"></ion-img>
+  </ion-card>
+</ion-content>
+
+<ion-footer *ngIf="!isPageLoading" class="ion-text-center" mode="md">
+  <label class="lblFontBold">
+    Showing schedule
+  </label>
+</ion-footer>

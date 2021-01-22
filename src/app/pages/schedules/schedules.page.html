@@ -1,0 +1,56 @@
+<ion-header translucent="false">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Schedules</ion-title>
+  </ion-toolbar>
+  <ion-toolbar mode="md">
+    <ion-segment mode="md" [(ngModel)]="segment" (click)="updateSchedule()">
+      <ion-segment-button mode="md" value="current">
+        Current
+      </ion-segment-button>
+      <ion-segment-button mode="md" value="past">
+        Past
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="background-color: white;" [scrollEvents]="true">
+  <ion-img *ngIf="isPageLoading" src="assets\mvv-icons\loading.gif"></ion-img>
+  <ion-list *ngIf="!isPageLoading && schedulesList.length > 0" class="padding-bottom-10">
+    <ion-item class="scheduleListItem" *ngFor="let schedule of schedulesList">
+      <ion-row class="width-100 padding-top-10 padding-bottom-10" [routerLink]="['/schedules/schedule', schedule.scheduleId]" routerLinkActive="selected" routerDirection="root">
+        <div class="width-60">
+          {{(schedule.date | date : 'EEEE, MMMM d') == todayDateFormat ? 'Today' : schedule.date | date : 'EEEE, MMMM d'}}
+        </div>
+        <div class="width-40 lblFontlight text-right" [ngClass]="scheduleRowCss(schedule)">{{getStatusName(schedule)}}</div>
+        <div class="width-100 margin-left-3">
+          <label>
+            Client: <span class="color-blue">{{schedule.displayName}}</span>
+          </label>
+        </div>
+        <div *ngIf="!schedule.isUnscheduled" class="width-100 margin-left-3 lblFontlight">
+          <ion-icon class="verticle-align-middle" name="alarm-outline"></ion-icon>
+          <span class="verticle-align-middle" *ngIf="schedule.timeIns || schedule.timeOuts">
+            {{schedule.timeIns | date : 'shortTime'}} to {{schedule.timeOuts | date: 'shortTime'}} ({{ schedule.durationS }} hrs)
+          </span>
+          <span class="verticle-align-middle" *ngIf="!schedule.timeIns && !schedule.timeOuts">
+            No scheduled times
+          </span>
+        </div>
+        <div *ngIf="schedule.isUnscheduled" class="width-100 margin-left-3">Unscheduled</div>
+      </ion-row>
+    </ion-item>
+  </ion-list>
+  <ion-item lines="none" *ngIf="!isPageLoading && schedulesList.length < 1" >
+    <ion-label>No Schedules</ion-label>
+  </ion-item>
+</ion-content>
+
+<ion-footer class="ion-text-center" mode="md">
+  <label class="lblFontBold">
+    Showing {{schedulesList.length}} of {{schedulesList.length}} schedules
+  </label>
+</ion-footer>

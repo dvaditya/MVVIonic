@@ -1,0 +1,96 @@
+<ion-content [fullscreen]="true" [scrollEvents]="true">
+  <div class="medsys-logo">
+    <img src="../assets/mvv-icons/medsys-logo.png">
+  </div>
+  <ion-card *ngIf="loginPage">
+    <ion-card-header class="titlebar"><span>MVV Login</span></ion-card-header>
+    <div class="mvvCard">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12">
+            <label class="lblFontlight">Please enter your credentials to login to the system.</label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12">
+              <ion-label class="lblFontBold" position="stacked">Account <ion-text color="danger">*</ion-text></ion-label>
+              <ion-input mode="md" class="input-text" [(ngModel)]="loginModel.accountName" required type="text"></ion-input>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12">
+              <ion-label class="lblFontBold" position="stacked">Login <ion-text color="danger">*</ion-text></ion-label>
+              <ion-input mode="md" class="input-text" [(ngModel)]="loginModel.userName" required type="text"></ion-input>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12">
+              <ion-label class="lblFontBold" position="stacked">Password <ion-text color="danger">*</ion-text></ion-label>
+              <ion-input mode="md" class="input-text" [(ngModel)]="loginModel.password" required type="password"></ion-input>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+              <label (click)="forgotPasswordPopover($event)" class="lblFontlight link-text float-right">Forgot?</label>
+            </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+            <ion-col size="4" class="ion-no-padding">
+              <ion-checkbox class="chkSaveCredentials float-right" [(ngModel)]="loginModel.saveLogin" mode="md"></ion-checkbox>
+            </ion-col>
+            <ion-col size="8" class="ion-no-padding">
+              <ion-label class="lblSaveCredentials lblFontlight">Save Account and Login</ion-label>
+            </ion-col>
+        </ion-row><br />
+        <ion-row class="ion-align-items-center">
+          <ion-col size="12" class="ion-text-center">
+            <ion-button mode="ios" fill="clear" class="btnPrimary" size="small" [disabled]="clickInProgress || biometricEventInProgress" (click)="onLoginClick('login')">
+              <ion-spinner *ngIf="clickInProgress" color="light" name="crescent"></ion-spinner> Login
+            </ion-button>
+          </ion-col>
+          <ion-col size="12" class="ion-text-center">
+            <ion-button mode="ios" fill="clear" class="btnPrimary" size="small" [disabled]="clickInProgress || biometricEventInProgress" (click)="onLoginClick('biometric')">
+              <ion-spinner *ngIf="biometricEventInProgress" color="light" name="crescent"></ion-spinner> Login with Face ID
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col class="ion-text-center">
+            <ion-label class="lblFontlight link-text" (click)="activateEnvironmentSelPage()">Click on this link to go back for environment selection</ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <label class="lblFontBold float-right mvvFontSize">{{ appVersion.version }}</label>
+          </ion-col>
+      </ion-row>
+      <ion-row *ngIf="appVersion.showError">
+        <ion-col size="12" class="mvv-alert">
+          <ion-label class="mvv-alert-danger">{{ appVersion.errorString }}</ion-label>
+        </ion-col>
+      </ion-row>
+      </ion-grid>
+    </div>
+  </ion-card>
+
+  <ion-card *ngIf="environmentSelectionPage">
+    <ion-card-header class="titlebar"><span>Please Enter Your Code To Continue</span></ion-card-header>
+    <div class="mvvCard">
+      <ion-grid>
+        <ion-row>
+          <ion-col size=12>
+            <ion-label class="lblFontBold" position="stacked">Enter Medsys Code <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input class="input-text" [(ngModel)]="environmentSelectionModel.code" required type="text"></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="12" class="ion-text-center">
+            <ion-button fill="clear" class="btnPrimary" size="small" [disabled]="clickInProgress" (click)="onEnvSelectionClick()">
+              <ion-spinner *ngIf="clickInProgress" color="light" name="crescent"></ion-spinner> Enter
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,191 @@
+body {
+    background: url('../assets/mvv-icons/linen.png') no-repeat center/cover fixed;
+}
+ion-content {
+    --background: none;
+}
+ion-menu-button {
+    color: var(--ion-color-primary);
+}
+/* ion-card-subtitle span{
+    margin-left: 3%;
+} */
+ion-card {
+    /* padding: 0; */
+    margin: 5px;
+    /* border-radius: 0; */
+    /* margin-top: 10px; */
+}
+ion-footer {
+    background-color: antiquewhite;
+}
+ion-toolbar {
+    --background: antiquewhite;
+}
+::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none;
+}
+.padding-left-0{
+    padding-left: 0;
+}
+.padding-right-0{
+    padding-right: 0;
+}
+.padding-top-0{
+    padding-top: 0;
+}
+.padding-bottom-0{
+    padding-bottom: 0;
+}
+.padding-top-10 {
+    padding-top: 10px;
+}
+.padding-bottom-10 {
+    padding-bottom: 10px;
+}
+.width-75 {
+    width: 75%;
+}
+.width-60 {
+    width: 60%;
+}
+.width-40 {
+    width: 40%;
+}
+.width-50 {
+    width: 55%;
+}
+.width-25 {
+    width: 25%;
+}
+.width-100 {
+    width: 100%;
+}
+.titlebar{
+    background: url('../assets/mvv-icons/titlebar.png') no-repeat center/cover fixed;
+    color: white;
+    line-height: 0;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+}
+.lblFontBold{
+    color: black;
+    font-weight: bold;
+}
+.lblFontlight{
+    color: black;
+    font-weight: lighter;
+}
+.mvvFontSize{
+    font-size: 14px;
+}
+.mvvboxShadow{
+    box-shadow: 0px 0px 5px 3px grey;
+}
+.ion-row-padding{
+    padding: 10px;
+}
+.ion-card-footer{
+    padding: 5px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+}
+.verticle-align-middle{
+    vertical-align: middle;
+}
+.link-text{
+    color: blue;
+    font-size: 14px;
+    text-decoration: underline;
+}
+.btnPrimary{
+    margin-bottom: 0;
+    font-size: 14px;
+    text-align: center;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    border: 1px solid transparent;
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    border-radius: 4px;
+}
+.mvv-alert-danger{
+    color: #a94442;
+    font-size: 14px;
+    font-weight: bold;
+}
+.mvv-alert{
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    border-radius: 4px;
+    padding: 10px;
+}
+.mvvCard{
+    overflow-y: auto;
+    max-height: 80%;
+}
+.color-blue{
+    color: blue;
+}
+.color-green{
+    color: green;
+}
+.hoverDivEven {
+    background: #bfd8fc;
+    padding: 5px;
+    margin-bottom: 7px;
+    margin-top: 7px;
+    border-radius: 4px;
+    box-shadow: 0px 0px 5px 3px grey;
+}
+.hoverDivOdd {
+    background: #eaf2ff;
+    padding: 5px;
+    margin-bottom: 7px;
+    margin-top: 7px;
+    border-radius: 4px;
+    box-shadow: 0px 0px 5px 3px grey;
+}
+.underline {
+    text-decoration: underline;
+}
+
+.add-tasks-css .modal-wrapper {
+    width: 95%;
+}
+
+.add-tasks-css ion-toolbar {
+    --min-height: 3%!important;
+    --background: url('../assets/mvv-icons/titlebar.png') no-repeat center/cover fixed;
+    --color: white;
+}
+
+.add-tasks-css ion-footer {
+    padding: 5px;
+}
+
+.add-tasks-css ion-grid {
+    padding: 0;
+}
+
+.add-tasks-css ion-col {
+    padding: 0;
+}
+
+.add-tasks-css .margin-left-2 {
+    margin-left: 2%;
+}
+
+.mvv-modals-css ion-toolbar {
+    --min-height: 3%!important;
+    --background: url('../assets/mvv-icons/titlebar.png') no-repeat center/cover fixed;
+    --color: white;
+}
+
+.mvv-modals-css .margin-left-2 {
+    margin-left: 2%;
+}

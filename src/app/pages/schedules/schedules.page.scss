@@ -1,0 +1,32 @@
+ion-item{
+  --border-color: blue;
+  --padding-end: 16px;
+}
+.scheduleListItem{
+  line-height: 20px;
+  font-size: 14px;
+}
+
+.margin-left-3{
+  margin-left: 3%;
+}
+
+#currentSchedules{
+  height: 80%;
+}
+.currentSchedulesBody{
+  overflow-y: scroll;
+  height: 85%;
+}
+
+#pastSchedules{
+  height: 20%;
+}
+.pastSchedulesBody{
+  overflow-y: none;
+  max-height: 20%;
+}
+
+.scheduleFooter{
+  max-height: 20%;
+}

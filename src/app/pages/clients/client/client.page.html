@@ -1,0 +1,57 @@
+<ion-header  [translucent]="false">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/clients" routerDirection="back"><ion-icon name="arrow-back"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>{{ client.displayName }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollEvents]="true">
+  <ion-card *ngIf="!isPageLoading" class="hoverDivOdd">
+    <ion-grid class="margin-left-2">
+      <ion-row>
+        <ion-col size="10">
+          <ion-label class="lblFontBold">Address</ion-label><br />
+          <span class="lblFontlight">{{ client.address }}</span><br />
+          <span class="lblFontlight">{{ client.city }}, {{ client.state }} {{ client.zip }}</span>
+        </ion-col>
+        <ion-col size="2">
+          <ion-icon name="list-circle-sharp" size="large"></ion-icon>
+        </ion-col>
+      </ion-row>
+      <ion-row class="margin-top-3">
+        <ion-col size="12">
+          <label class="lblFontBold">Phone</label><span *ngIf="!client.phone"> N/A</span><br />
+          <ion-icon *ngIf="client.phone" name="phone-portrait"></ion-icon>
+          <label *ngIf="client.phone" class="margin-left-2"><a href="tel:{{client.phone}}">{{helper.formatPhoneNumber(client.phone)}}</a></label>
+        </ion-col>
+      </ion-row>
+      <ion-row class="margin-top-3">
+        <ion-col size="12">
+          <ion-label class="lblFontBold">Gender</ion-label>
+          <span class="lblFontlight" *ngIf="!client.gender"> N/A</span>
+          <span class="lblFontlight" *ngIf="client.gender">{{ client.gender }}</span>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-button mode="ios" expand="block">Create New Appointment</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+
+  <ion-card *ngIf="isPageLoading">
+    <ion-img src="assets\mvv-icons\loading.gif"></ion-img>
+  </ion-card>
+</ion-content>
+
+<ion-footer *ngIf="!isPageLoading" class="ion-text-center" mode="md">
+  <label class="lblFontBold">
+    Showing client
+  </label>
+</ion-footer>

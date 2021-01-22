@@ -1,0 +1,74 @@
+<ion-header [translucent]="false">
+  <ion-toolbar>
+      <ion-title class="ion-text-center mvvFontSize">Add Tasks</ion-title>
+      <ion-icon slot="end" size="large" (click)="onDismiss()" name="close-outline"></ion-icon>
+  </ion-toolbar>
+  </ion-header>
+  <div class="inner-content">
+    <div id="carePlanTasks" *ngIf="carePlanTasks.length > 0">
+      <ion-item lines="none" (click)="showCarePlanTasks ? showCarePlanTasks = false : showCarePlanTasks = true">
+        <ion-img style="width: 20px; height: 30px;" src="assets\mvv-icons\details_open.png"></ion-img>
+        <ion-label class="margin-left-2">Care Plan Tasks</ion-label>
+      </ion-item>
+      <ion-grid *ngIf="showCarePlanTasks">
+        <ion-row style="border-bottom: 1px solid grey;" *ngFor="let carePlanTask of carePlanTasks">
+          <ion-col size="12">
+            <ion-item lines="none">
+              <ion-label style="font-size: 14px; margin: 0;" class="lblFontBold">{{ carePlanTask.code }} - {{ carePlanTask.taskName }}</ion-label>
+            </ion-item>
+          </ion-col>
+          <ion-col size="3">
+            <ion-item lines="none">
+              <ion-checkbox style="--size: 14px; margin: 0;" mode="md" (click)="carePlanTask.inComplete = false; carePlanTask.refused = false"
+              [(ngModel)]="carePlanTask.completed"></ion-checkbox>
+              <ion-label style="font-size: 14px;margin: 0;margin-left: 5%;" class="lblFontBold">Yes</ion-label>
+            </ion-item>
+          </ion-col>
+          <ion-col size="4">
+            <ion-item lines="none">
+              <ion-checkbox style="--size: 14px; margin: 0;" mode="md" (click)="carePlanTask.inComplete = false; carePlanTask.completed = false"
+              [(ngModel)]="carePlanTask.refused"></ion-checkbox>
+              <ion-label style="font-size: 14px;margin: 0;margin-left: 5%;" class="lblFontBold">Refused</ion-label>
+            </ion-item>
+          </ion-col>
+          <ion-col size="3">
+            <ion-item lines="none">
+              <ion-checkbox style="--size: 14px; margin: 0;" mode="md" (click)="carePlanTask.completed = false; carePlanTask.refused = false"
+              [(ngModel)]="carePlanTask.inComplete"></ion-checkbox>
+              <ion-label style="font-size: 14px;margin: 0;margin-left: 5%;" mode="md" class="lblFontBold">No</ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <div id="regularTasks" *ngIf="nonCarePlanTasks.length > 0">
+      <ion-item lines="none" (click)="showAdditionTasks ? showAdditionTasks = false : showAdditionTasks = true">
+        <ion-img style="width: 20px; height: 30px;" src="assets\mvv-icons\details_open.png"></ion-img>
+        <ion-label class="margin-left-2">Add Additional Tasks</ion-label>
+      </ion-item>
+      <ion-grid *ngIf="showAdditionTasks">
+        <ion-row *ngFor="let nonCarePlanTask of nonCarePlanTasks">
+          <ion-col size="12">
+            <ion-item>
+              <ion-label style="font-size: 14px;margin: 0;margin-left: 5%;" class="lblFontBold">{{ nonCarePlanTask.taskCode }} - {{ nonCarePlanTask.taskName }}</ion-label>
+              <ion-checkbox style="--size: 14px; margin: 0;" mode="md" slot="start" [(ngModel)]="nonCarePlanTask.selected"></ion-checkbox>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <div id="noTasks" *ngIf="nonCarePlanTasks.length < 1 && carePlanTasks.length < 1">
+      <ion-item lines="none">
+        <ion-label>
+          No tasks exist on this schedule
+        </ion-label>
+      </ion-item>
+    </div>
+  </div>
+
+  <ion-footer class="ion-text-center" mode="md" *ngIf="nonCarePlanTasks.length > 0 || carePlanTasks.length > 0">
+    <ion-button size="small" mode="md" (click)="onDismiss()" color="danger">Cancel</ion-button>
+    <ion-button size="small" mode="md" color="primary">Save Changes</ion-button>
+  </ion-footer>
+

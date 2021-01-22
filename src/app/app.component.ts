@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { Router } from '@angular/router';
+import { AuthService } from './services/auth.service';
+import { Observable, interval, Subscription } from 'rxjs';
+import { TokenStatus } from './shared/enums/token-status.enum';
+import { User } from './shared/models/auth/user.model';
 
 @Component({
   selector: 'app-root',
@@ -10,60 +13,66 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent implements OnInit {
-  public selectedIndex = 0;
-  public appPages = [
-    {
-      title: 'Inbox',
-      url: '/folder/Inbox',
-      icon: 'mail'
-    },
-    {
-      title: 'Outbox',
-      url: '/folder/Outbox',
-      icon: 'paper-plane'
-    },
-    {
-      title: 'Favorites',
-      url: '/folder/Favorites',
-      icon: 'heart'
-    },
-    {
-      title: 'Archived',
-      url: '/folder/Archived',
-      icon: 'archive'
-    },
-    {
-      title: 'Trash',
-      url: '/folder/Trash',
-      icon: 'trash'
-    },
-    {
-      title: 'Spam',
-      url: '/folder/Spam',
-      icon: 'warning'
-    }
-  ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  public tokenExpiryCheck: Subscription;
+  public tokenExpiryCheckSource: Observable<number> = interval(30000);
+  public currentUser: User;
+
 
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    public authService: AuthService,
+    private router: Router
   ) {
     this.initializeApp();
+    this.authService.currentUser.subscribe(x => this.currentUser = x);
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
+      // this.splashScreen.hide();
     });
   }
 
   ngOnInit() {
-    const path = window.location.pathname.split('folder/')[1];
-    if (path !== undefined) {
-      this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
+    this.listenForLoginEvents();
+  }
+
+  // click events
+  onLogoutClick() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+    return window.dispatchEvent(new CustomEvent('user:logout'));
+  }
+
+  // Login Events
+  checkForTokenExpiry() {
+    console.log(100);
+    this.authService.checkToken().subscribe((data: number) => {
+      if(data === TokenStatus.invalid) {
+        this.authService.logout();
+      }
+    }, error => {
+      console.log(error);
+      this.authService.logout();
+    });
+  }
+
+  listenForLoginEvents() {
+    if(this.currentUser && (!this.tokenExpiryCheck || this.tokenExpiryCheck.closed)) {
+      this.tokenExpiryCheck = this.tokenExpiryCheckSource.subscribe(val => this.checkForTokenExpiry());
+    } else if(!this.currentUser && this.tokenExpiryCheck) {
+      this.tokenExpiryCheck.unsubscribe();
     }
+
+    window.addEventListener('user:login', () => {
+       this.tokenExpiryCheck = this.tokenExpiryCheckSource.subscribe(val => this.checkForTokenExpiry());
+       console.log('Token check started');
+    });
+
+    window.addEventListener('user:logout', () => {
+      this.tokenExpiryCheck.unsubscribe();
+      console.log('Token check stopped');
+    });
   }
 }

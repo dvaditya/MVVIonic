@@ -1,0 +1,44 @@
+<ion-header  [translucent]="false">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Clients</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" [scrollEvents]="true">
+  <ion-card [ngClass]="isOdd ? 'hoverDivOdd' : 'hoverDivEven'" *ngFor="let client of clientList; let isOdd=odd;">
+    <ion-grid class="margin-left-2" [routerLink]="['/clients/client', client.admissionId]" routerLinkActive="selected" routerDirection="root">
+      <ion-row>
+        <ion-label class="lblFontBold">{{ client.displayName }}</ion-label>
+        <ion-label class="lblFontlight margin-left-2">[{{ client.chartId }}]</ion-label>
+      </ion-row>
+      <ion-row class="margin-left-2">
+        <a class="underline" href="{{ client.directionsURL }}">
+          <span>{{ client.address }}</span><br />
+          <span>{{ client.city }}, {{ client.state }} {{ client.zip }}</span>
+        </a>
+      </ion-row>
+      <ion-row class="margin-top-3" *ngIf="client.phone">
+        <ion-icon name="phone-portrait"></ion-icon>
+        <label class="margin-left-2"><a href="tel:{{client.phone}}">{{client.phone}}</a></label>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+
+  <ion-card *ngIf="isPageLoading">
+    <ion-img src="assets\mvv-icons\loading.gif"></ion-img>
+  </ion-card>
+  <ion-card *ngIf="!isPageLoading && clientList.length < 1">
+    <ion-item lines="none">
+      <ion-label>No schedules for today.</ion-label>
+    </ion-item>
+  </ion-card>
+</ion-content>
+
+<ion-footer class="ion-text-center" mode="md">
+  <label class="lblFontBold">
+    Showing {{clientList.length}} of {{clientList.length}} clients
+  </label>
+</ion-footer>
