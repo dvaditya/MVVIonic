@@ -7,6 +7,13 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content [fullscreen]="true" [scrollEvents]="true">
+  <ion-card>
+    <ion-grid>
+      <ion-row>
+        <ion-label>Allow FingerPrint/Face Recognition for Current User</ion-label>
+        <ion-checkbox style="--size: 14px; margin: 0;" mode="md"></ion-checkbox>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
 </ion-content>
